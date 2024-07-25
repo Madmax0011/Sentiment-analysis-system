@@ -3,21 +3,28 @@ import joblib
 
 app = Flask(__name__)
 
-# Load the model and vectorizer
-model = joblib.load('best_model.pkl')
+# Load the trained model and vectorizer
+best_model = joblib.load('best_model.pkl')
 vectorizer = joblib.load('vectorizer.pkl')
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    text = request.form['text']
-    transformed_text = vectorizer.transform([text])
-    prediction = model.predict(transformed_text)
+    data = request.get_json()
+    if not data or 'text' not in data:
+        return jsonify({'error': 'Invalid input'}), 400
+
+    text = data['text']
+    text_vectorized = vectorizer.transform([text])
+    prediction = best_model.predict(text_vectorized)
     sentiment = 'Positive' if prediction[0] == 1 else 'Negative'
-    return render_template('index.html', sentiment=sentiment)
+
+    return jsonify({'sentiment': sentiment})
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
