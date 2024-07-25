@@ -99,7 +99,7 @@ grid_search.fit(X_train_tfidf, y_train)
 # Get the best model
 best_model = grid_search.best_estimator_
 
-# Evaluate the best model
+# Evaluated the best model
 best_predictions = best_model.predict(X_val_tfidf)
 best_accuracy = accuracy_score(y_val, best_predictions)
 best_precision = precision_score(y_val, best_predictions)
@@ -120,7 +120,7 @@ print("Model optimization and evaluation completed.")
 # DataFrame for performance metrics
 performance_df = pd.DataFrame(performance_metrics)
 
-# Set up the bar plot
+# Setting up the bar plot
 plt.figure(figsize=(10, 6))
 sns.barplot(x='Model', y='value', hue='variable', data=performance_df.melt(id_vars='Model'))
 plt.title('Model Performance Comparison')
