@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 import joblib
 
@@ -7,6 +6,10 @@ app = Flask(__name__)
 # Load the best model and vectorizer
 best_model = joblib.load('best_model.pkl')
 vectorizer = joblib.load('vectorizer.pkl')
+
+@app.route('/')
+def home():
+    return "Welcome to the Sentiment Prediction API!"
 
 @app.route('/predict', methods=['POST'])
 def predict():
