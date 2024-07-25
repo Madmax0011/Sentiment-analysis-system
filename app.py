@@ -3,8 +3,8 @@ import joblib
 
 app = Flask(__name__)
 
-# Load the best model and vectorizer
-best_model = joblib.load('best_model.pkl')
+# Load the model and vectorizer
+model = joblib.load('best_model.pkl')
 vectorizer = joblib.load('vectorizer.pkl')
 
 @app.route('/')
@@ -13,10 +13,10 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.json
+    data = request.get_json(force=True)
     text = data['text']
-    processed_text = vectorizer.transform([text])
-    prediction = best_model.predict(processed_text)
+    transformed_text = vectorizer.transform([text])
+    prediction = model.predict(transformed_text)
     sentiment = 'Positive' if prediction[0] == 1 else 'Negative'
     return jsonify({'sentiment': sentiment})
 
