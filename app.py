@@ -22,7 +22,7 @@ def index():
 
 def make_prediction(text):
     processed_text = vectorizer.transform([text])
-    prediction = best_model.predict(processed_text)
+    prediction = best_model.predict(processed_text)  # Use best_model here
     return prediction[0]
 
 if __name__ == "__main__":
