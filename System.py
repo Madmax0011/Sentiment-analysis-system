@@ -67,32 +67,18 @@ for model_name, model in models.items():
     print(f"  Recall: {recall}")
     print(f"  F1-Score: {f1}")
 
-# Model evaluation check
-print("Model evaluation with optimized Random Forest completed.")
-
-# Define parameter grid for Random Forest
-param_grid = {
-    'n_estimators': [10, 50],
-    'max_depth': [10, 20],
-    'min_samples_split': [2, 5]
-}
-
-# Perform grid search
-grid_search = GridSearchCV(RandomForestClassifier(), param_grid, cv=5, scoring='f1')
-grid_search.fit(X_train_tfidf, y_train)
-
-# Get the best model
-best_model = grid_search.best_estimator_
+# Save the Logistic Regression model as the best model
+best_model = models['Logistic Regression']
 
 # Evaluate the best model
 best_accuracy, best_precision, best_recall, best_f1 = evaluate_model(best_model, X_train_tfidf, y_train, X_val_tfidf, y_val)
 
-print(f"Best Model (Random Forest) Accuracy: {best_accuracy}")
-print(f"Best Model (Random Forest) Precision: {best_precision}")
-print(f"Best Model (Random Forest) Recall: {best_recall}")
-print(f"Best Model (Random Forest) F1-Score: {best_f1}")
+print(f"Best Model (Logistic Regression) Accuracy: {best_accuracy}")
+print(f"Best Model (Logistic Regression) Precision: {best_precision}")
+print(f"Best Model (Logistic Regression) Recall: {best_recall}")
+print(f"Best Model (Logistic Regression) F1-Score: {best_f1}")
 
-# Save the best model
+# Save the best model and vectorizer
 joblib.dump(best_model, 'best_model.pkl')
 joblib.dump(vectorizer, 'vectorizer.pkl')
 
